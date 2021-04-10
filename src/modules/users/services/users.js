@@ -1,6 +1,6 @@
 import api from "../../../api";
-import { USERS_API_URI } from "../constants";
+import { API_URL} from "../../../constants";
 
 export function getUsersList() {
-  return api.get(USERS_API_URI);
+  return api.get(API_URL);
 }
