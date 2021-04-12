@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import useBoolean from './useBoolean';
 import {
   getUsersList,
   createUser,

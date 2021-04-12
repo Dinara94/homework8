@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { TextField, Button } from "@material-ui/core";
+import { useHistory, useParams } from 'react-router-dom';
+import { useUser } from "../hooks/useUser";
 import "./UseForm.css";
 
-export function UserForm({ user, onCancel, onSave }) {
+export function UserForm({ onSave }) {
+  const history = useHistory();
+  const { userId } = useParams();
+  const { user } = useUser(userId);
   const [thisUser, setThisUser] = useState(user);
 
   const onUserFormSubmit = (e) => {
@@ -13,6 +18,10 @@ export function UserForm({ user, onCancel, onSave }) {
   const onChange = (e) => {
     setThisUser({ ...thisUser, [e.target.name]: e.target.value });
   };
+
+  function onBackBtnClick() {
+     history.goBack();
+}
 
   return (
     <form action="" className="contact-form" onSubmit={onUserFormSubmit}>
@@ -74,7 +83,7 @@ export function UserForm({ user, onCancel, onSave }) {
         <Button
           type="button"
           className="button"
-          onClick={onCancel}
+          onClick={onBackBtnClick}
           variant="contained"
           color="secondary"
         >
