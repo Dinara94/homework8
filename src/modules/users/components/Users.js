@@ -1,51 +1,46 @@
 import React from "react";
-import { /* useEffect,  */ useState } from "react";
+import { useState } from "react";
+import useUsers from '../hooks/useUsers';
 import Loading from "../../common/components/Loading";
-import useUsers from "../hooks/useUsers";
 import UsersList from "./UsersList";
 import UserForm from "./UserForm";
 import { Button } from "@material-ui/core";
 
-function Users() {
-  const { users, isLoading } = useUsers();
-  const [openForm, setOpenForm] = useState(false);
-  const [selectedUser, setSelectedUser] = useState({});
 
-  const emptyUser = {
+function emptyUser() {
+  return {
     fullName: "",
     phone: "",
     email: "",
-  };
+  }
+
+};
+
+export default function Users() {
+  const { users, remove, save, isLoading } = useUsers();
+  const [selectedUser, setSelectedUser] = useState(null);
+  const isFormVisible = !!selectedUser;
+
+  function onUserSelect(user) {
+    setSelectedUser(user);
+}
 
   const onAddNewUser = () => {
-    setSelectedUser(emptyUser);
-    openFormFunc();
+    setSelectedUser(emptyUser());
   };
 
-  const onUserSelect = (user) => {
-    setSelectedUser(user);
-    openFormFunc();
-  };
-
-  const onDelete = (user) => {
-    console.log(user);
-  };
-
-  const onSave = (user) => {
-    console.log(user);
-  };
-
-  const openFormFunc = () => {
-    setOpenForm(true);
-  };
+  function onSave(user) {
+    save(user);
+    closeFormFunc();
+}
 
   const closeFormFunc = () => {
-    setOpenForm(false);
+    setSelectedUser(null);
   };
 
   return (
     <div>
-      {openForm ? (
+      {isFormVisible ? (
         <UserForm
           key={selectedUser.id}
           user={selectedUser}
@@ -62,7 +57,7 @@ function Users() {
               <UsersList
                 list={users}
                 onSelect={onUserSelect}
-                onDelete={onDelete}
+                onDelete={remove}
               />
               <Button onClick={onAddNewUser} variant="contained" color="default" style={btnStyle()}>Add new user</Button>
             </>
@@ -78,8 +73,7 @@ function btnStyle() {
   return {
     "display": "block",
     "width": "25%",
-    "margin": "50px auto"
+    "margin": "50px auto",
+    "fontWeight": "600"
   }
 }
-
-export default Users;

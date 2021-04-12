@@ -5,7 +5,7 @@ function UserListItem({ user, onSelect, onDelete }) {
   const onDeleteClick = (e) => {
     e.preventDefault();
 
-    onDelete(user);
+    onDelete(user.id);
 };
 
   return (

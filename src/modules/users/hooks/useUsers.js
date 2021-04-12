@@ -1,23 +1,59 @@
-import { useEffect, useState } from "react";
-import { getUsersList } from "../services/users";
+import { useCallback, useEffect, useState } from "react";
+import useBoolean from './useBoolean';
+import {
+  getUsersList,
+  createUser,
+  updateUser,
+  removeUser,
+} from "../services/usersService";
 
 export default function useUsers() {
   const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useBoolean(false);
 
-  useEffect(async () => {
+  const refresh = useCallback(() => {
     setIsLoading(true);
-    setError(null);
-    try {
-      const { data } = await getUsersList();
+
+    getUsersList().then(({ data }) => {
       setUsers(data);
-    } catch (err) {
-      setError(err);
-    }
+      setIsLoading(false);
+    });
+  }, [setIsLoading]);
 
-    setIsLoading(false);
-  }, []);
+  const save = useCallback(
+    (data) => {
+      setIsLoading(true);
 
-  return { users, isLoading, error };
+      if (data.id) {
+        updateUser(data).then(({ data }) => {
+          setUsers((users) =>
+            users.map((item) => (item.id === data.id ? data : item))
+          );
+          setIsLoading(false);
+        });
+      } else {
+        createUser(data).then(({ data }) => {
+          setUsers((users) => [...users, data]);
+          setIsLoading(false);
+        });
+      }
+    },
+    [setIsLoading]
+  );
+
+  const remove = useCallback(
+    (id) => {
+      setIsLoading(true);
+
+      removeUser(id).then(() => {
+        setUsers((users) => users.filter((item) => item.id !== id));
+        setIsLoading(false);
+      });
+    },
+    [setIsLoading]
+  );
+
+  useEffect(refresh, [refresh]);
+
+  return { users, isLoading, refresh, save, remove };
 }
