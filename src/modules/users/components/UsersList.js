@@ -4,7 +4,7 @@ import { Container } from "@material-ui/core";
 
 function UsersList({ list, onSelect, onDelete }) {
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="50%">
       {list.map((user) => (
         <UserListItem
           key={user.id}

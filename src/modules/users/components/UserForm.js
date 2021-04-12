@@ -1,11 +1,9 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { TextField, Button } from "@material-ui/core";
+import "./UseForm.css";
 
 export function UserForm({ user, onCancel, onSave }) {
   const [thisUser, setThisUser] = useState(user);
-  /*     shouldComponentUpdate(nextProps, nextState) {
-        return this.state.name !== nextState.name;
-    } */
 
   const onUserFormSubmit = (e) => {
     e.preventDefault();
@@ -13,51 +11,75 @@ export function UserForm({ user, onCancel, onSave }) {
   };
 
   const onChange = (e) => {
-    /* this.setState({
-            [e.target.name]: e.target.value,
-        }); */
-    console.log(e.target.value);
+    setThisUser({ ...thisUser, [e.target.name]: e.target.value });
   };
 
   return (
     <form action="" className="contact-form" onSubmit={onUserFormSubmit}>
-      <h2>User Details</h2>
-      <label htmlFor="nameInput">Full name</label>
-      <input
-        type="text"
-        name="name"
-        id="nameInput"
-        value={thisUser.name}
-        onChange={onChange}
-      />
-      <br />
+      <h2 className="form-title">User Details</h2>
+      <div className="row">
+        <label htmlFor="nameInput" className="label">
+          Name
+        </label>
+        <TextField
+          type="text"
+          name="name"
+          id="nameInput"
+          value={thisUser.name}
+          onChange={onChange}
+          variant="standard"
+          color="secondary"
+        />
+      </div>
 
-      <label htmlFor="surnameInput">Surname</label>
-      <input
-        type="text"
-        name="surname"
-        id="surnameInput"
-        value={thisUser.surname}
-        onChange={onChange}
-      />
-      <br />
+      <div className="row">
+        <label htmlFor="surnameInput" className="label">
+          Phone
+        </label>
+        <TextField
+          type="text"
+          name="phone"
+          id="phoneInput"
+          value={thisUser.phone}
+          onChange={onChange}
+          variant="standard"
+          color="secondary"
+        />
+      </div>
 
-      <label htmlFor="phoneInput">Phone</label>
-      <input
-        type="text"
-        name="phone"
-        id="phoneInput"
-        value={thisUser.phone}
-        onChange={onChange}
-      />
+      <div className="row">
+        <label htmlFor="phoneInput" className="label">
+          Email
+        </label>
+        <TextField
+          type="text"
+          name="email"
+          id="emailInput"
+          value={thisUser.email}
+          onChange={onChange}
+          variant="standard"
+          color="secondary"
+        />
+      </div>
 
       <div className="buttons">
-        <button type="submit" className="pull-right">
+        <Button
+          type="submit"
+          className="button"
+          variant="contained"
+          color="primary"
+        >
           Save
-        </button>
-        <button type="button" className="pull-left" onClick={onCancel}>
+        </Button>
+        <Button
+          type="button"
+          className="button"
+          onClick={onCancel}
+          variant="contained"
+          color="secondary"
+        >
           Cancel
-        </button>
+        </Button>
       </div>
     </form>
   );
