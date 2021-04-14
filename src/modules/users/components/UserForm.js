@@ -1,27 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button } from "@material-ui/core";
-import { useHistory, useParams } from 'react-router-dom';
-import { useUser } from "../hooks/useUser";
+import { useHistory, useParams } from "react-router-dom";
+import useUsers from "../hooks/useUsers";
+import { getUser } from "../services/usersService";
 import "./UseForm.css";
 
-export function UserForm({ onSave }) {
+export function UserForm() {
   const history = useHistory();
   const { userId } = useParams();
-  const { user } = useUser(userId);
-  const [thisUser, setThisUser] = useState(user);
+  const { save } = useUsers();
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  console.log(userId);
+  console.log(selectedUser);
+
+  useEffect(() => {
+    getUser(userId).then(({ data }) => {
+      setSelectedUser(data);
+    });
+  }, [userId]);
 
   const onUserFormSubmit = (e) => {
     e.preventDefault();
-    onSave(thisUser);
+    save(selectedUser);
+    history.goBack();
   };
 
   const onChange = (e) => {
-    setThisUser({ ...thisUser, [e.target.name]: e.target.value });
+    setSelectedUser({ ...selectedUser, [e.target.name]: e.target.value });
   };
 
   function onBackBtnClick() {
-     history.goBack();
-}
+    history.goBack();
+  }
 
   return (
     <form action="" className="contact-form" onSubmit={onUserFormSubmit}>
@@ -34,7 +45,7 @@ export function UserForm({ onSave }) {
           type="text"
           name="name"
           id="nameInput"
-          value={thisUser.name}
+         /*  value={selectedUser.name} */
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -49,7 +60,7 @@ export function UserForm({ onSave }) {
           type="text"
           name="phone"
           id="phoneInput"
-          value={thisUser.phone}
+        /*   value={selectedUser.phone} */
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -64,7 +75,7 @@ export function UserForm({ onSave }) {
           type="text"
           name="email"
           id="emailInput"
-          value={thisUser.email}
+        /*   value={selectedUser.email} */
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -75,6 +86,7 @@ export function UserForm({ onSave }) {
         <Button
           type="submit"
           className="button"
+          onClick={onUserFormSubmit}
           variant="contained"
           color="primary"
         >

@@ -2,16 +2,14 @@ import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import { Grid, Button } from "@material-ui/core";
 
-function UserListItem({ user, onSelect, onDelete }) {
-  const { url } =  useRouteMatch();
+function UserListItem({ user, onDelete }) {
+  const { url } = useRouteMatch();
   const onDeleteClick = (e) => {
     e.preventDefault();
 
     onDelete(user.id);
   };
 
-  console.log(useRouteMatch());
-  
   return (
     <Grid container direction="row" spacing={0} alignItems="center">
       <Grid container item xs={2} spacing={0}>
@@ -32,7 +30,6 @@ function UserListItem({ user, onSelect, onDelete }) {
           <Button
             variant="contained"
             color="primary"
-            onClick={onSelect.bind(null, user)}
           >
             Edit
           </Button>

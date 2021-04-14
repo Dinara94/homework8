@@ -10,11 +10,13 @@ import UserForm from "./UserForm";
 
 function Users() {
     const { path } = useRouteMatch();
+    console.log(path);
 
   return (
     <Switch>
       <Route path={ path } exact component={UsersListPage} />
       <Route path={ path + '/:userId' } component={UserForm} />
+      <Route path={ path + '/edit' } exact component={UserForm} />
     </Switch>
   );
 }

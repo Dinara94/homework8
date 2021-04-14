@@ -5,6 +5,10 @@ export function getUsersList() {
   return api.get(API_URL);
 }
 
+export function getUser(userId) {
+  return api.get(API_URL, { params: { userId } });
+}
+
 export function createUser(data) {
   return api.post(API_URL, data);
 }

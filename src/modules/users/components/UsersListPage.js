@@ -1,63 +1,27 @@
 import React from "react";
-import { useState } from "react";
+import { Link, useRouteMatch } from "react-router-dom";
 import useUsers from "../hooks/useUsers";
 import Loading from "../../common/components/Loading";
 import UsersList from "./UsersList";
-import UserForm from "./UserForm";
 import { Button } from "@material-ui/core";
 
-function emptyUser() {
-  return {
-    fullName: "",
-    phone: "",
-    email: "",
-  };
-}
-
 export default function UsersListPage() {
-  const { users, remove, save, isLoading } = useUsers();
-  const [selectedUser, setSelectedUser] = useState(null);
-
-  function onUserSelect(user) {
-    setSelectedUser(user);
-  }
-
-  const onAddNewUser = () => {
-    setSelectedUser(emptyUser());
-  };
-
-  function onSave(user) {
-    save(user);
-    closeFormFunc();
-  }
-
-  const closeFormFunc = () => {
-    setSelectedUser(null);
-  };
+  const { url } = useRouteMatch();
+  const { users, remove, isLoading } = useUsers();
 
   return (
     <div>
-      {/*   <UserForm
-        key={selectedUser.id}
-        user={selectedUser}
-        onCancel={closeFormFunc}
-        onSave={onSave}
-      ></UserForm> */}
-
       {isLoading ? (
         <Loading />
       ) : (
         <>
           <h1>Users</h1>
-          <UsersList list={users} onSelect={onUserSelect} onDelete={remove} />
-          <Button
-            onClick={onAddNewUser}
-            variant="contained"
-            color="default"
-            style={btnStyle()}
-          >
-            Add new user
-          </Button>
+          <UsersList list={users} onDelete={remove} />
+          <Link to={url + "/edit"}>
+            <Button variant="contained" color="default" style={btnStyle()}>
+              Add new user
+            </Button>
+          </Link>
         </>
       )}
     </div>
