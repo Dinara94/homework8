@@ -2,23 +2,18 @@ import React, { useState, useEffect } from "react";
 import { TextField, Button } from "@material-ui/core";
 import { useHistory, useParams } from "react-router-dom";
 import useUsers from "../hooks/useUsers";
-import { getUser } from "../services/usersService";
 import "./UseForm.css";
 
 export function UserForm() {
   const history = useHistory();
   const { userId } = useParams();
-  const { save } = useUsers();
-  const [selectedUser, setSelectedUser] = useState(null);
-
-  console.log(userId);
-  console.log(selectedUser);
+  const { save, findSelected, selectedUser, setSelectedUser } = useUsers();
 
   useEffect(() => {
-    getUser(userId).then(({ data }) => {
-      setSelectedUser(data);
-    });
+    findSelected(userId);
   }, [userId]);
+
+  console.log(selectedUser);
 
   const onUserFormSubmit = (e) => {
     e.preventDefault();
@@ -45,7 +40,7 @@ export function UserForm() {
           type="text"
           name="name"
           id="nameInput"
-         /*  value={selectedUser.name} */
+          /*  value={selectedUser.name} */
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -60,7 +55,7 @@ export function UserForm() {
           type="text"
           name="phone"
           id="phoneInput"
-        /*   value={selectedUser.phone} */
+          /*   value={selectedUser.phone} */
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -75,7 +70,7 @@ export function UserForm() {
           type="text"
           name="email"
           id="emailInput"
-        /*   value={selectedUser.email} */
+          /*   value={selectedUser.email} */
           onChange={onChange}
           variant="standard"
           color="secondary"

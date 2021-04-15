@@ -17,7 +17,7 @@ export default function UsersListPage() {
         <>
           <h1>Users</h1>
           <UsersList list={users} onDelete={remove} />
-          <Link to={url + "/edit"}>
+          <Link to={url + "/add"}>
             <Button variant="contained" color="default" style={btnStyle()}>
               Add new user
             </Button>

@@ -1,4 +1,4 @@
-import { useCallback, useBoolean, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   getUsersList,
   createUser,
@@ -9,53 +9,42 @@ import {
 
 export default function () {
   const [users, setUsers] = useState([]);
-  /* const [isLoading, setIsLoading] = useBoolean(false); */
+  const [selectedUser, setSelectedUser] = useState(null);
 
 
   const refresh = useCallback(() => {
-    /* setIsLoading(true); */
-
     getUsersList().then(({ data }) => {
       setUsers(data);
-    /*   setIsLoading(false); */
+    });
+  }, [users]);
+
+  const findSelected = useCallback((id) => {
+    getUser(id).then(({ data }) => {
+      setSelectedUser(data);
     });
   }, []);
 
-
-  const save = useCallback(
-    (data) => {
-   /*    setIsLoading(true); */
-
-      if (data.id) {
-        updateUser(data).then(({ data }) => {
-          setUsers((users) =>
-            users.map((item) => (item.id === data.id ? data : item))
-          );
-       /*    setIsLoading(false); */
-        });
-      } else {
-        createUser(data).then(({ data }) => {
-          setUsers((users) => [...users, data]);
-         /*  setIsLoading(false); */
-        });
-      }
-    },
-    []
-  );
-
-  const remove = useCallback(
-    (id) => {
-/*       setIsLoading(true); */
-
-      removeUser(id).then(() => {
-        setUsers((users) => users.filter((item) => item.id !== id));
-     /*    setIsLoading(false); */
+  const save = useCallback((data) => {
+    if (data.id) {
+      updateUser(data).then(({ data }) => {
+        setUsers((users) =>
+          users.map((item) => (item.id === data.id ? data : item))
+        );
       });
-    },
-    []
-  );
+    } else {
+      createUser(data).then(({ data }) => {
+        setUsers((users) => [...users, data]);
+      });
+    }
+  }, []);
+
+  const remove = useCallback((id) => {
+    removeUser(id).then(() => {
+      setUsers((users) => users.filter((item) => item.id !== id));
+    });
+  }, []);
 
   useEffect(refresh, [refresh]);
 
-  return { users, /* isLoading, */ refresh, save, remove};
+  return { users, findSelected, selectedUser, setSelectedUser, refresh, save, remove };
 }
