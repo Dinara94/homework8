@@ -6,7 +6,7 @@ export function getUsersList() {
 }
 
 export function getUser(userId) {
-  return api.get(API_URL, { params: { userId } });
+  return api.get(API_URL + "/" + userId);
 }
 
 export function createUser(data) {

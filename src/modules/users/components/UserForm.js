@@ -13,7 +13,10 @@ export function UserForm() {
     findSelected(userId);
   }, [userId]);
 
+  console.log(userId);
   console.log(selectedUser);
+
+// сделать для айди стейт и переустанавливать его каждый раз при рендеринге формы 
 
   const onUserFormSubmit = (e) => {
     e.preventDefault();
