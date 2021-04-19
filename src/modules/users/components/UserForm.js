@@ -16,7 +16,7 @@ export function UserForm() {
   console.log(userId);
   console.log(selectedUser);
 
-// сделать для айди стейт и переустанавливать его каждый раз при рендеринге формы 
+  // сделать для айди стейт и переустанавливать его каждый раз при рендеринге формы
 
   const onUserFormSubmit = (e) => {
     e.preventDefault();
@@ -43,7 +43,7 @@ export function UserForm() {
           type="text"
           name="name"
           id="nameInput"
-          /*  value={selectedUser.name} */
+          value={selectedUser ? selectedUser.name : ""}
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -58,7 +58,7 @@ export function UserForm() {
           type="text"
           name="phone"
           id="phoneInput"
-          /*   value={selectedUser.phone} */
+          value={selectedUser ? selectedUser.phone : ""}
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -73,7 +73,7 @@ export function UserForm() {
           type="text"
           name="email"
           id="emailInput"
-          /*   value={selectedUser.email} */
+          value={selectedUser ? selectedUser.email : ""}
           onChange={onChange}
           variant="standard"
           color="secondary"
