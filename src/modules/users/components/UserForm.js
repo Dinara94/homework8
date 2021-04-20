@@ -11,7 +11,7 @@ export function UserForm() {
 
   useEffect(() => {
     findSelected(userId);
-  }, [userId]);
+  }, []);
 
   console.log(userId);
   console.log(selectedUser);
